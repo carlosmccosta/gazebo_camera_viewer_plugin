@@ -15,7 +15,7 @@ export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:${HOME}/catkin_ws/devel/lib
 
 ## SDF
 
-Add within a camera sensor the plugin configuration:
+Add within a camera sensor the plugin configuration.
 
 ```xml
 <sensor name='camera_sensor' type='camera'>
@@ -61,9 +61,27 @@ Add within a camera sensor the plugin configuration:
         <windowHorizontalOffset>0</windowHorizontalOffset>
         <windowVerticalOffset>0</windowVerticalOffset>
         <cvWaitKeyMs>1</cvWaitKeyMs>
+        <resizeImageWidth>0</resizeImageWidth>
+        <resizeImageHeight>0</resizeImageHeight>
+        <resizeImageInterpolation>1</resizeImageInterpolation>
     </plugin>
 </sensor>
 ```
+
+If `windowWidth > 0 && windowHeight > 0`, then `cv::resizeWindow` will be called.
+
+if `resizeImageWidth > 0 && resizeImageHeight > 0 && resizeImageInterpolation >= 0 && (image.cols != resizeImageWidth || image.rows != resizeImageHeight))`, then `cv::resize()` will be called. 
+
+The `resizeImageInterpolation` parameter can be one of the following integers:
+- INTER_NEAREST      = 0
+- INTER_LINEAR       = 1
+- INTER_CUBIC        = 2
+- INTER_AREA         = 3
+- INTER_LANCZOS4     = 4
+- INTER_LINEAR_EXACT = 5
+- INTER_MAX          = 7
+- WARP_FILL_OUTLIERS = 8
+- WARP_INVERSE_MAP   = 16
 
 
 ### Gazebo log file

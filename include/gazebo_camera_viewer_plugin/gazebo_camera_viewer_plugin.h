@@ -4,6 +4,8 @@
 #include <gazebo/sensors/CameraSensor.hh>
 #include <gazebo/rendering/Camera.hh>
 #include <gazebo/util/system.hh>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 
@@ -13,6 +15,9 @@ class GZ_PLUGIN_VISIBLE GazeboCameraViewerPlugin : public gazebo::SensorPlugin {
 	public:
 		GazeboCameraViewerPlugin() :
 			windowName("camera_viewer"),
+			resizeImageWidth(0),
+			resizeImageHeight(0),
+			resizeImageInterpolation(1),
 			cvWaitKeyMs(1),
 			frameNumber(0),
 			numberOfFramesInLastSecond(0),
@@ -33,6 +38,9 @@ class GZ_PLUGIN_VISIBLE GazeboCameraViewerPlugin : public gazebo::SensorPlugin {
 
 		cv::Mat image;
 		std::string windowName;
+		int resizeImageWidth;
+		int resizeImageHeight;
+		int resizeImageInterpolation;
 		int cvWaitKeyMs;
 
 		size_t frameNumber;

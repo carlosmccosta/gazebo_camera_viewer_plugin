@@ -42,11 +42,20 @@ void GazeboCameraViewerPlugin::Load(gazebo::sensors::SensorPtr _sensor, sdf::Ele
 	}
 	else if (_sdf->HasElement("windowWidth") && _sdf->HasElement("windowHeight"))
 	{
-		int width = _sdf->GetElement("windowWidth")->Get<int>();
-		int height = _sdf->GetElement("windowHeight")->Get<int>();
-		if (width > 0 && height > 0)
-			cv::resizeWindow(windowName, width, height);
+		int windowWidth = _sdf->GetElement("windowWidth")->Get<int>();
+		int windowHeight = _sdf->GetElement("windowHeight")->Get<int>();
+		if (windowWidth > 0 && windowHeight > 0)
+			cv::resizeWindow(windowName, windowWidth, windowHeight);
 	}
+
+	if (_sdf->HasElement("resizeImageWidth"))
+		resizeImageWidth = _sdf->GetElement("resizeImageWidth")->Get<int>();
+
+	if (_sdf->HasElement("resizeImageHeight"))
+		resizeImageHeight = _sdf->GetElement("resizeImageHeight")->Get<int>();
+
+	if (_sdf->HasElement("resizeImageInterpolation"))
+		resizeImageInterpolation = _sdf->GetElement("resizeImageInterpolation")->Get<int>();
 
 	int windowHorizontalOffset = 0, windowVerticalOffset = 0;
 
@@ -108,6 +117,14 @@ void GazeboCameraViewerPlugin::OnNewImageFrame(const unsigned char *_image,
 	if (_depth == 1 || _depth == 3)
 	{
 		image = cv::Mat((int)_height, (int)_width, (_depth == 1 ? CV_8UC1 : CV_8UC3), (void*)_image);
+
+		if (resizeImageWidth > 0 && resizeImageHeight > 0 && resizeImageInterpolation >= 0 && (image.cols != resizeImageWidth || image.rows != resizeImageHeight))
+		{
+			cv::Mat image_scaled;
+			cv::resize(image, image_scaled, cv::Size(resizeImageWidth, resizeImageHeight), 0, 0, resizeImageInterpolation);
+			image = image_scaled;
+		}
+
 		cv::imshow(windowName, image);
 		cv::waitKey(cvWaitKeyMs);
 	}
