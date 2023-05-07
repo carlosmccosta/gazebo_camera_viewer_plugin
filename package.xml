@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+	<name>gazebo_camera_viewer_plugin</name>
+	<version>1.0.0</version>
+	<description>Gazebo camera sensor plugin that displays rendered images in full screen or in a window with specific size and position using OpenCV HighGUI.</description>
+	<author email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</author>
+	<maintainer email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</maintainer>
+	<license>BSD</license>
+
+	<buildtool_depend>cmake</buildtool_depend>
+	<buildtool_depend>pkg-config</buildtool_depend>
+
+	<depend>libgazebo11-dev</depend>
+	<depend>libopencv-dev</depend>
+
+	<export>
+		<build_type>cmake</build_type>
+	</export>
+</package>
